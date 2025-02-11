@@ -20,7 +20,6 @@ return [
 		//可配置多个账户（每个数组之间用,分割），不用请删掉。
     ],
     'Notification' => [
-
         'title' => 'CDT流量统计',         // 标题
 
         'enableEmail' => false,         // 邮件通知开关
@@ -46,9 +45,12 @@ return [
         'picUrl' => 'https://raw.githubusercontent.com/Alano-i/aliyun-cdt-check/refs/heads/main/aliyuncdt.png',        // 企业微信通知封面图
         'baseApiUrl' => 'https://qyapi.weixin.qq.com',     // 企业微信API地址，如有代理填代理地址，默认：https://qyapi.weixin.qq.com
 
-
         'enableTG' => false,            // Telegram 通知开关
         'tgBotToken' => 'your-telegram-bot-token',
         'tgChatId' => 'your-telegram-chat-id'
+    ],
+    'Cron' => [
+        'aliyun_cdt_check_schedule' => '*/5 * * * *', // 每 5 分钟执行一次
+        'dailyjob_schedule' => '1 8 * * *',           // 每天 8:01 执行
     ]
 ];
