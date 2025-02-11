@@ -2,6 +2,7 @@ FROM php:5.6-alpine
 
 WORKDIR /app
 
+# 复制项目文件
 COPY ./app /app
 
 # 安装时区和 cron 工具
@@ -10,13 +11,9 @@ RUN apk add --no-cache tzdata && \
     echo "Asia/Shanghai" > /etc/timezone && \
     apk del tzdata
 
-# 读取配置文件中的时间配置并生成 crontab 文件
-RUN echo "<?php \
-    \$config = include '/app/config.php'; \
-    file_put_contents('/etc/crontabs/root', \
-        \$config['Cron']['aliyun_cdt_check_schedule'] . ' php /app/aliyun-cdt-check.php > /dev/null 2>&1\n' . \
-        \$config['Cron']['dailyjob_schedule'] . ' php /app/dailyjob.php > /dev/null 2>&1\n' \
-    ); \
-?>" | php
+# 复制启动脚本并设置权限
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-CMD ["crond", "-f"]
+# 设置启动命令
+CMD ["/start.sh"]
